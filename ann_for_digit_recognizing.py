@@ -375,7 +375,7 @@ def NN(X, y,num_of_layers,size_of_layers,epochs,LR,Tanh=False,Relu=False,batch_s
 
 """# 1- Build NN with only 2 layers => 1 hidden layer and 1 output layer"""
 
-parameters=NN(X_train, y_train,3,[20,40,10],45,1,batch_size=128)
+parameters=NN(X_train, y_train,3,[50,55,10],45,1.3,batch_size=128)
 
 class Sample:
 
