@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 from flasgger import Swagger
 import matplotlib.pyplot as plt
-from ann_for_digit_recognizing import Sample
+from digit_recognizer_using_cnn import Sample
 
 app=Flask(__name__) # it's a common step to start with this
 Swagger(app) # pass the App to Swagger
