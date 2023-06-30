@@ -84,22 +84,22 @@ def arch(input_shape):
     Z1=tfl.Conv2D(filters= 6 , kernel_size= 5,strides=(1, 1))(input_img)
     A1=tfl.ReLU()(Z1)
     P1=tfl.AveragePooling2D(pool_size=(2, 2), strides=(2, 2))(A1)
-    BT1=tfl.BatchNormalization()(P1)
+    BT1=tfl.BatchNormalization()(P1, training=True)
 
     Z2=tfl.Conv2D(filters= 16 , kernel_size= 5 ,strides=(1, 1))(BT1)
     A2=tfl.ReLU()(Z2)
     P2=tfl.AveragePooling2D(pool_size=(5, 5), strides=(2,2))(A2)
-    BT2=tfl.BatchNormalization()(P2)
+    BT2=tfl.BatchNormalization()(P2, training=True)
 
     F1=tfl.Flatten()(BT2)
 
     FC1=tfl.Dense(units=120, activation='relu')(F1)
     D1=tfl.Dropout(0.4)(FC1)
-    BT3=tfl.BatchNormalization()(D1)
+    BT3=tfl.BatchNormalization()(D1, training=True)
 
     FC2=tfl.Dense(units=84, activation='relu')(BT3)
     D2=tfl.Dropout(0.4)(FC2)
-    BT4=tfl.BatchNormalization()(D2)
+    BT4=tfl.BatchNormalization()(D2, training=True)
 
     outputs=tfl.Dense(units= 10 , activation='softmax')(BT4)
     model = tf.keras.Model(inputs=input_img, outputs=outputs)
@@ -117,7 +117,7 @@ conv_model.summary()
 
 train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(64)
 test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(64)
-history = conv_model.fit(train_dataset, epochs=30, validation_data=test_dataset)
+history = conv_model.fit(train_dataset, epochs=30, validation_data=test_dataset,shuffle=True)
 
 class Sample:
 
