@@ -81,27 +81,21 @@ def arch(input_shape):
 
     input_img = tf.keras.Input(shape=input_shape)
 
-    Z1=tfl.Conv2D(filters= 6 , kernel_size= 5,strides=(1, 1))(input_img)
-    A1=tfl.ReLU()(Z1)
-    P1=tfl.AveragePooling2D(pool_size=(2, 2), strides=(2, 2))(A1)
-    BT1=tfl.BatchNormalization()(P1, training=True)
+    layer=tfl.Conv2D(filters= 6 , kernel_size= 5,strides=(1, 1))(input_img)
+    layer=tfl.ReLU()(layer)
+    layer=tfl.AveragePooling2D(pool_size=(2, 2), strides=(2, 2))(layer)
 
-    Z2=tfl.Conv2D(filters= 16 , kernel_size= 5 ,strides=(1, 1))(BT1)
-    A2=tfl.ReLU()(Z2)
-    P2=tfl.AveragePooling2D(pool_size=(5, 5), strides=(2,2))(A2)
-    BT2=tfl.BatchNormalization()(P2, training=True)
+    layer=tfl.Conv2D(filters= 16 , kernel_size= 5 ,strides=(1, 1))(layer)
+    layer=tfl.ReLU()(layer)
+    layer=tfl.AveragePooling2D(pool_size=(5, 5), strides=(2,2))(layer)
 
-    F1=tfl.Flatten()(BT2)
+    layer=tfl.Flatten()(layer)
 
-    FC1=tfl.Dense(units=120, activation='relu')(F1)
-    D1=tfl.Dropout(0.4)(FC1)
-    BT3=tfl.BatchNormalization()(D1, training=True)
+    layer=tfl.Dense(units=120, activation='relu')(layer)
 
-    FC2=tfl.Dense(units=84, activation='relu')(BT3)
-    D2=tfl.Dropout(0.4)(FC2)
-    BT4=tfl.BatchNormalization()(D2, training=True)
+    layer=tfl.Dense(units=84, activation='relu')(layer)
 
-    outputs=tfl.Dense(units= 10 , activation='softmax')(BT4)
+    outputs=tfl.Dense(units= 10 , activation='softmax')(layer)
     model = tf.keras.Model(inputs=input_img, outputs=outputs)
     return model
 
@@ -123,11 +117,14 @@ class Sample:
 
     # function to test a single sample
     def predict(self,image):
-        img = Image.open(image).convert('L').resize((28, 28), Image.ANTIALIAS)
-        img = np.array(img)
-        img = img / 255.
+        image = Image.open(image)
+        image = image.convert('L')
+        image = np.array(image.resize((28, 28)))
+        image = image.astype('float32')
+        image = image / 255.
+        image = image.reshape((1, 28, 28,1))
 
-        return np.argmax(tf.nn.softmax(conv_model.predict(img[None,:,:])[0]))
+        return np.argmax(tf.nn.softmax(conv_model.predict(image)[0]))
 
     # function to predict a CSV file
     def predict_file(self,df_test):
