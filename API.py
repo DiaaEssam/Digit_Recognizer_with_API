@@ -1,16 +1,18 @@
 from flask import Flask,request
 import pandas as pd
-import numpy as np
 import pickle
 from flasgger import Swagger
-import matplotlib.pyplot as plt
 from digit_recognizer_using_cnn import Sample
+import os
 
 app=Flask(__name__) # it's a common step to start with this
 Swagger(app) # pass the App to Swagger
 
 # unpickle the object from the pickle file
-pickle_in=open('C:/Users/Diaa Essam/OneDrive/Documents/Python/.vscode/Digit_Recognizer_API/Classifier.pkl','rb') # Reading pickle file
+current_directory = os.path.abspath(os.path.dirname(__file__))
+pickle_file_path = os.path.join(current_directory, "Classifier.pkl")
+
+pickle_in=open(pickle_file_path,'rb') # Reading pickle file
 classifier=pickle.load(pickle_in) # taking back the object from the file
 
 @app.route('/') # must be written to define the root page or main page to display
