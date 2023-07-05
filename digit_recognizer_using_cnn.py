@@ -9,22 +9,18 @@ Original file is located aty
 
 
 # Commented out IPython magic to ensure Python compatibility.
-import math
 import numpy as np
-import h5py
-import matplotlib.pyplot as plt
-from matplotlib.pyplot import imread
-import scipy
 from PIL import Image
-import pandas as pd
 import tensorflow as tf
 from keras.datasets import mnist
 import tensorflow.keras.layers as tfl
-from tensorflow.python.framework import ops
+import os
+
 # %matplotlib inline
 np.random.seed(1)
 
 
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 
 """# Applying One Hot Encodeing for labels"""
@@ -131,8 +127,10 @@ class Sample:
 
 test_sample=Sample()
 
-# look in the note
+current_directory = os.path.abspath(os.path.dirname(__file__))
+pickle_file_path = os.path.join(current_directory, "Classifier.pkl")
+
 import pickle
-pickle_out=open("C:/Users/Diaa Essam/OneDrive/Documents/Python/.vscode/Digit_Recognizer_API/Classifier.pkl","wb")
+pickle_out=open(pickle_file_path,"wb")
 pickle.dump(test_sample, pickle_out)
 pickle_out.close()
