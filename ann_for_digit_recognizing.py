@@ -13,15 +13,20 @@ Original file is located at
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from PIL import Image
+import os
 np.seterr(over='ignore')
 
 """# Loading MNIST Dataset"""
 
 #(X_train, y_train), (X_test, y_test) = mnist.load_data()
-X_train=pd.read_csv("C:/Users/Diaa Essam/OneDrive/Documents/Python/.vscode/Digit_Recognizer_API/Data/train.csv")
-X_test=pd.read_csv("C:/Users/Diaa Essam/OneDrive/Documents/Python/.vscode/Digit_Recognizer_API/Data/test.csv")
+current_directory = os.path.abspath(os.path.dirname(__file__))
+train_path = os.path.join(current_directory, "Data", "train.csv")
+test_path = os.path.join(current_directory, "Data", "test.csv")
+
+X_train=pd.read_csv(train_path)
+X_test=pd.read_csv(test_path)
+
 image_id=pd.Series(X_test.iloc[:,0])
 df = image_id.reset_index()
 image_id = df['index']
@@ -404,7 +409,9 @@ class Sample:
 test_sample=Sample()
 
 # look in the note
+pickle_file_path = os.path.join(current_directory, "Classifier.pkl")
+
 import pickle
-pickle_out=open("C:/Users/Diaa Essam/OneDrive/Documents/Python/.vscode/Digit_Recognizer_API/Classifier.pkl","wb")
+pickle_out=open(pickle_file_path,"wb")
 pickle.dump(test_sample, pickle_out)
 pickle_out.close()
