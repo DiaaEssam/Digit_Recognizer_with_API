@@ -10,7 +10,6 @@ Original file is located aty
 
 # Commented out IPython magic to ensure Python compatibility.
 import numpy as np
-from PIL import Image
 import tensorflow as tf
 from keras.datasets import mnist
 import tensorflow.keras.layers as tfl
@@ -101,36 +100,7 @@ train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(64)
 test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(64)
 history = conv_model.fit(train_dataset, epochs=30, validation_data=test_dataset,shuffle=True)
 
-class Sample:
-
-    # function to test a single sample
-    def predict(self,image):
-        image = Image.open(image)
-        image = image.convert('L')
-        image = np.array(image.resize((28, 28)))
-        image = image.astype('float32')
-        image = image / 255.
-        image = image.reshape((1, 28, 28,1))
-
-        return np.argmax(tf.nn.softmax(conv_model.predict(image)[0]))
-
-    # function to predict a CSV file
-    def predict_file(self,df_test):
-        param_X_test=np.array(df_test)
-        param_X_test = param_X_test.astype('float32')
-        param_X_test=normalize(param_X_test)
-
-        y_pred=conv_model.predict(X_test)
-        return np.argmax(y_pred,axis=1)
-
-
-
-test_sample=Sample()
-
 current_directory = os.path.abspath(os.path.dirname(__file__))
-pickle_file_path = os.path.join(current_directory, "Classifier.pkl")
+model_path = os.path.join(current_directory, "model")
+conv_model.save(model_path)
 
-import pickle
-pickle_out=open(pickle_file_path,"wb")
-pickle.dump(test_sample, pickle_out)
-pickle_out.close()
