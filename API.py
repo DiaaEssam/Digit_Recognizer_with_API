@@ -1,8 +1,9 @@
 from flask import Flask,request
 import pandas as pd
-import pickle
+import tensorflow as tf
 from flasgger import Swagger
-from digit_recognizer_using_cnn import Sample
+from PIL import Image
+import numpy as np
 import os
 
 app=Flask(__name__) # it's a common step to start with this
@@ -10,10 +11,9 @@ Swagger(app) # pass the App to Swagger
 
 # unpickle the object from the pickle file
 current_directory = os.path.abspath(os.path.dirname(__file__))
-pickle_file_path = os.path.join(current_directory, "Classifier.pkl")
+model_path = os.path.join(current_directory, "model")
 
-pickle_in=open(pickle_file_path,'rb') # Reading pickle file
-classifier=pickle.load(pickle_in) # taking back the object from the file
+classifier=tf.keras.models.load_model(model_path)
 
 @app.route('/') # must be written to define the root page or main page to display
 # this will display a web page having welcome all in it
@@ -40,7 +40,14 @@ def predict_A_sample():
     """
     image=request.files.get("image")
 
-    prediction=classifier.predict(image)
+    image = Image.open(image)
+    image = image.convert('L')
+    image = np.array(image.resize((28, 28)))
+    image = image.astype('float32')
+    image = image / 255.
+    image = image.reshape((1, 28, 28,1))
+
+    prediction=np.argmax(tf.nn.softmax(classifier.predict(image)[0]))
     return "The digit is: " + str(prediction)
 
 # a page for predicting csv file, can be used through Postman
@@ -61,8 +68,10 @@ def predict_A_File():
             description: The output values
     """
     df_test=pd.read_csv(request.files.get("file")) # must be done through Postman
-    prediction=classifier.predict_file(df_test)
-    return "The digits are: " + str(list(prediction))
+    test_data=np.array(df_test)
+    test_data=test_data.reshape(test_data.shape[0],28,28,1)
+    prediction=classifier.predict(test_data)
+    return "The digits are: " + str(list(np.argmax(prediction,axis=1)))
 
 
 
