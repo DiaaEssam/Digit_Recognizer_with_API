@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["python", "./API using flask and Swagger.py"]
+CMD ["python", "./API.py"]
 
 
 
