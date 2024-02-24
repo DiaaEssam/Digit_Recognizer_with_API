@@ -1,34 +1,45 @@
-# Project Readme: Digit Recognizer
+# Digit Recognizer Project
 
-## Overview
-This project focuses on building a digit recognizer using Convolutional Neural Networks (CNN) and Artificial Neural Networks (ANN). It provides two different implementations: one using a CNN model with a Flask API, and another using an ANN model.
+This project implements a digit recognizer using artificial neural networks (ANN) and convolutional neural networks (CNN). It provides two main components: an API for real-time digit prediction and a Jupyter Notebook for training and evaluating the models.
 
-The project includes the following files:
-- `digit_recognizer_using_cnn.py`: This file contains the code for the digit recognizer using a CNN model and Flask API. It uses TensorFlow, PIL, NumPy, and Pandas libraries for image processing, model loading, and prediction. The API provides two endpoints: `/predict` for predicting a single digit image and `/predict_file` for predicting multiple digits from a CSV file.
-- `API.py`: This file contains the Flask API implementation for the digit recognizer using a CNN model. It loads the pre-trained model, accepts image inputs, preprocesses them, and returns the predicted digit.
-- `ANN_from_scratch_using_OOP_.ipynb`: This Jupyter Notebook file contains the implementation of an Artificial Neural Network (ANN) from scratch using object-oriented programming (OOP) concepts. It includes the necessary libraries, loads the MNIST dataset, applies one-hot encoding for labels, and visualizes some of the data.
-- `ANN_from_scratch_.ipynb`: This Jupyter Notebook file contains the implementation of an Artificial Neural Network (ANN) from scratch. It includes the necessary libraries, loads the MNIST dataset, applies one-hot encoding for labels, and visualizes some of the data.
+## Table of Contents
+- [Files](#files)
+- [Usage](#usage)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
+
+## Files
+
+The project consists of the following files:
+
+1. `API.py`: This file contains the code for the Flask API that serves the digit recognition model. It accepts image input and returns the predicted digit as output.
+
+2. `digit_recognizer_using_cnn.py`: This file contains the code for training and evaluating the CNN model for digit recognition. It loads the MNIST dataset, applies one-hot encoding to the labels, and visualizes some of the data. The model is then trained and evaluated using the dataset.
+
+3. `digit_recognizer_using_ann.py`: This file contains the code for training and evaluating the ANN model for digit recognition. It follows a similar process as the CNN model, but without the convolutional layers.
+
+4. `ANN_from_scratch_using_OOP_.ipynb`: This Jupyter Notebook provides an implementation of an artificial neural network (ANN) from scratch using object-oriented programming (OOP) concepts. It covers the architecture of the network, forward and backward propagation, and training process.
+
+5. `ANN_from_scratch_.ipynb`: This Jupyter Notebook provides an implementation of an artificial neural network (ANN) from scratch without using OOP concepts. It covers similar topics as the previous notebook but uses a different coding approach.
 
 ## Usage
-To use the digit recognizer models, follow the instructions below:
 
-### CNN Model with Flask API
-1. Ensure you have the required libraries installed (Flask, TensorFlow, PIL, NumPy, Pandas, flasgger).
-2. Run the `API.py` file using Python.
-3. Once the Flask API is running, you can access the following endpoints:
-   - `/`: This endpoint displays a welcome message.
-   - `/predict`: This endpoint accepts a single digit image and returns the predicted digit.
-   - `/predict_file`: This endpoint accepts a CSV file containing multiple digit images and returns the predicted digits.
+To use the project, follow these steps:
 
-### ANN Model
-1. Open the `ANN_from_scratch_using_OOP_.ipynb` or `ANN_from_scratch_.ipynb` file in Jupyter Notebook or any compatible environment.
-2. Make sure you have the required libraries installed (NumPy, Pandas, Matplotlib, Keras, TensorFlow).
-3. Run the notebook cells step by step to execute the code.
-4. Follow the instructions provided in the notebook to load the MNIST dataset, preprocess the data, and train the ANN model.
-5. Experiment with different parameters and configurations to improve the model's performance.
+1. Install the required dependencies by running `pip install -r requirements.txt`.
 
-## Contributing
-Contributions to this project are welcome. If you have any suggestions, improvements, or bug fixes, please create a pull request or open an issue to discuss further.
+2. Train the models by running the respective training scripts (`digit_recognizer_using_cnn.py` or `digit_recognizer_using_ann.py`).
+
+3. Once the models are trained, you can run the API by executing `API.py`. This will start the Flask server.
+
+4. Use a tool like Postman to send POST requests to the API endpoint `/predict` with an image file containing a handwritten digit. The API will return the predicted digit as a response.
+
+## Acknowledgements
+
+The project is based on the MNIST dataset and utilizes the TensorFlow and Keras libraries for training and evaluating the models.
 
 ## License
-The code in this project is available under the [MIT License](https://opensource.org/licenses/MIT).
+
+This project is licensed under the [MIT License](LICENSE).
+
+Feel free to explore the code and experiment with different models and architectures to improve the digit recognition accuracy.
