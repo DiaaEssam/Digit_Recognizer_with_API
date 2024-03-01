@@ -1,4 +1,4 @@
-# Digit Recognizer Project
+# Digit Recognizer
 
 This project implements a digit recognizer using artificial neural networks (ANN) and convolutional neural networks (CNN). It provides two main components: an API for real-time digit prediction and a Jupyter Notebook for training and evaluating the models.
 
